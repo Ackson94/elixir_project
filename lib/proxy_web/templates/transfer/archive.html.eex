@@ -1,0 +1,142 @@
+<ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0);">System Reports</a></li>
+    <li class="breadcrumb-item"> Archived Transactions</li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+    <h1 class="subheader-title">
+        <i class='subheader-icon fal fa-table'></i> Transaction: <span class='fw-300'>Archives</span>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xl-12 text-center" id="loader" style="display: none;">
+        <button class="btn btn-info" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    </div>
+</div><br>
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Recieved <span class="fw-300"><i>Requests</i></span>
+                </h2>
+                <div class="panel-toolbar">
+                    <button class="btn btn-primary btn-sm" data-toggle="dropdown">Options</button>
+                    <div class="dropdown-menu dropdown-menu-animated dropdown-menu-right position-absolute pos-top">
+                        <button class="dropdown-item" data-toggle="modal" data-target="#filter"> Filter Entries</button>
+                        <button class="dropdown-item" id="js-download-csv"> Export to CSV</button>                        
+                        <button class="dropdown-item" id="reload-archive">Reload Entries</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <table id="archive" class="table table-bordered table-hover table-striped w-100">
+                        <thead>
+                            <tr>                               
+                                <th>Account Number</th>
+                                <th>Sender Mobile No.</th>
+                                <th>Amount</th>                                
+                                <th>External Id</th>
+                                <th>Vendor Code</th>                               
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        
+                        <tfoot>
+                            <tr>
+                                <th>Account Number</th>
+                                <th>Sender Mobile No.</th>
+                                <th>Amount</th>                                
+                                <th>External Id</th>
+                                <th>Vendor Code</th>                               
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <form id="reportSearchForm">
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label text-muted" for="acc_num">Account No.</label>
+                                <input type="text" name="acc_num" id="acc_num" placeholder="Account Number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label text-muted" for="vendor_code">Vender Code </label>
+                                <input type="text" name="vendor_code" id="vendor_code" placeholder="Vendor Code" class="form-control">
+                            </div> 
+                        </div>
+                    </div>
+                    
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="username">Status</label>
+                                <select name="status_code" id="status_code" placeholder="Status" class="form-control">
+                                    <option></option>
+                                    <option value="200">SUCCESS</option>
+                                    <option value="400">FAILED</option>                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label text-muted" for="mobile_num">Mobile No. </label>
+                                <input type="text" name="mobile_num" id="mobile_num" placeholder="Sender Mobile Number" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label text-muted" for="from">Start Date </label>
+                                <input type="date" name="from" id="from" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label text-muted" for="to">End Date</label>
+                                <input type="date" name="to" id="to" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="archive-filter">FIlter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

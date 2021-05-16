@@ -1,0 +1,80 @@
+<ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0);">System Utilities</a></li>
+    <li class="breadcrumb-item">MNOs</li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+    <h1 class="subheader-title">
+        <i class='subheader-icon fal fa-table'></i> MNO: <span class='fw-300'>Records</span>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    MNO <span class="fw-300"><i>Records</i></span>
+                </h2>
+                <div class="panel-toolbar">
+                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                    <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                    <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <table id="table-api-users" class="table table-bordered table-hover table-striped w-100">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Access Token</th>
+                                <th>Vendor Code</th>
+                                <th>Provider</th>
+                                <th>Channel Code</th>                              
+                                <th>Created by</th>
+                                <th>Date Created</th>
+                                <th>Date Modified</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%= for mno <- @mnos do %>
+                                <tr>
+                                    <td><%= mno.username %></td>
+                                    <td><%= mno.access_token %></td>
+                                    <td><%= mno.vendor_code %></td>
+                                    <td><%= mno.provider %></td>
+                                    <td><%= mno.channel_code %></td>                                    
+                                    <td style="text-transform: capitalize"><%= "#{mno.user && mno.user.first_name} #{mno.user && mno.user.last_name}" %></td>
+                                    <td><%= "#{mno.inserted_at |> Calendar.DateTime.shift_zone!("Africa/Cairo") |> Calendar.Strftime.strftime!("%d-%b-%Y %H:%M:%S")}" %></td>
+                                    <td><%= "#{mno.updated_at |> Calendar.DateTime.shift_zone!("Africa/Cairo") |> Calendar.Strftime.strftime!("%d-%b-%Y %H:%M:%S")}" %></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-primary btn-xs" data-toggle="dropdown" style="margin-top:0px !important; padding-top: 0px !important;">Options</button>
+                                        <div class="dropdown-menu dropdown-menu-animated dropdown-menu-right position-absolute pos-top">
+                                            <a href="<%= Routes.mno_path(@conn, :edit, %{id: mno.id}) %>" class="dropdown-item text-primary">Edit</a>
+                                            <a href="#" data-api-user-id="<%= mno.id %>" class="js-delete-api-user dropdown-item text-danger"> Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Username</th>
+                                <th>Access Token</th>
+                                <th>Vendor Code</th>
+                                <th>Provider</th>
+                                <th>Channel Code</th>                                
+                                <th>Created by</th>
+                                <th>Date Created</th>
+                                <th>Date Modified</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

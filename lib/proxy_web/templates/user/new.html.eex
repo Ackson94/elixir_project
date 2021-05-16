@@ -1,0 +1,110 @@
+<ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item">Manage Users</li>
+    <li class="breadcrumb-item active">System Users</li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+    <h1 class="subheader-title">
+        <i class='subheader-icon fal fa-user-circle'></i> System: <span class='fw-300'>Users</span>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-md-12 col-lg-offset-2">
+        <div class="form-group">
+            <%= if get_flash(@conn, :info) do %>
+                <div class="alert alert-success alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                <%= get_flash(@conn, :info) %>
+                </div>
+            <% end %>
+            <%= if get_flash(@conn, :error) do %>
+                <div class="alert alert-danger alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                Opps! <%= get_flash(@conn, :error) %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    New <span class="fw-300"><i>User</i></span>
+                </h2>
+                <div class="panel-toolbar">
+                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                    <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                    <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <form action="<%= Routes.user_path(@conn, :create)%>" method="POST">
+						<div class="row">
+                            <div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label" for="username">First Name <span class="text-danger">*</span></label>
+									<input type="text" name="user[first_name]" class="form-control" style="text-transform: capitalize" placeholder="First Name" minlength="2" maxlength="50" required>
+									<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label" for="username">Last Name <span class="text-danger">*</span></label>
+									<input type="text" name="user[last_name]" class="form-control" style="text-transform: capitalize" placeholder="Last Name" minlength="2" maxlength="50" required>
+								</div>
+							</div>
+						</div><br>
+						<div class="row">
+                            <div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label" for="username">Email <span class="text-danger">*</span></label>
+									<input type="email" name="user[email]" class="form-control" placeholder="Email" minlength="2" maxlength="100" required>
+								</div> 
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label" for="username">username<span class="text-danger">*</span></label>
+									<input type="text" name="user[username]" class="form-control" placeholder="Username" minlength="2" maxlength="50" required>
+								</div>
+							</div>
+						</div><br>
+						<div class="row">
+                            <div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label" for="username">User Role<span class="text-danger">*</span></label>
+									<select name="user[user_role]" id="user_role" data-placeholder="User Type" class="select2 form-control" required>
+										<option></option>
+										<optgroup label="User Role">
+											<option value="3">Checker</option>
+											<option value="2">Maker</option>
+											<option value="1">Admin</option>
+										</optgroup>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label" for="username">User Type<span class="text-danger">*</span></label>
+									<select name="user[user_type]" id="user_type" data-placeholder="User Type" class="select2 form-control" required>
+										<option></option>
+										<optgroup label="User Type">
+											<option value="1">Maintenance</option>
+											<option value="2">Operations</option>
+										</optgroup>
+									</select>
+								</div>
+							</div>
+						</div><br>
+                        <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row">
+                            <button class="btn btn-primary ml-auto submit" type="submit">Submit form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

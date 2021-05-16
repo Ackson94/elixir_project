@@ -1,0 +1,137 @@
+<ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0);">System Utilities</a></li>
+    <li class="breadcrumb-item">System Users</li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+    <h1 class="subheader-title">
+        <i class='subheader-icon fal fa-table'></i> System: <span class='fw-300'>Users</span>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-md-12 col-lg-offset-2">
+        <div class="form-group">
+            <%= if get_flash(@conn, :info) do %>
+                <div class="alert alert-success alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                <%= get_flash(@conn, :info) %>
+                </div>
+            <% end %>
+            <%= if get_flash(@conn, :error) do %>
+                <div class="alert alert-danger alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                Opps! <%= get_flash(@conn, :error) %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    System <span class="fw-300"><i>Users</i></span>
+                </h2>
+                <div class="panel-toolbar">
+                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                    <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                    <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <table id="dt-users" class="table table-bordered table-hover table-striped w-100">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>User Role</th>
+                                <th>user Type</th>
+                                <th>Status</th>
+                                <th>Created by</th>
+                                <th>Date Created</th>
+                                <th>Last Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%= for user <- @users do %>
+                                <tr>
+                                    <td style="text-transform: capitalize"><%= user.first_name %></td>
+                                    <td style="text-transform: capitalize"><%= user.last_name %></td>
+                                    <td><%= user.username %></td>
+                                    <td><%= user.email %></td>
+                                    <td class="text-center" style="text-transform: uppercase">
+                                        <%= if user.user_role == 3 do %>
+                                            <span class="text-primary">Checker</span>
+                                        <% end %>
+                                        <%= if user.user_role == 2 do %>
+                                            <span class="text-warning">Maker</span>
+                                        <% end %>
+                                        <%= if user.user_role == 1 do %>
+                                            <span class="text-warning">Admin</span>
+                                        <% end %>
+                                    </td>
+                                    <td class="text-center" style="text-transform: uppercase">
+                                        <%= if user.user_type == 1 do %>
+                                            <span class="text-success"> Maintenance</span>
+                                        <% end %>
+                                        <%= if user.user_type == 2 do %>
+                                            <span class="text-primary">Operations</span>
+                                        <% end %>
+                                    </td>
+                                    <td class="text-center" style="text-transform: uppercase">
+                                        <%= if user.status == 1 do %>
+                                            <span class="text-success"> Active</span>
+                                        <% end %>
+                                        <!-- <%= if user.status == 2 do %>
+                                            <span class="text-primary">Disabled</span>
+                                        <% end %> -->
+                                        <%= if user.status == 3 do %>
+                                            <span class="text-danger">Deleted</span>
+                                        <% end %>
+                                    </td>
+                                    <td style="text-transform: capitalize"><%= "#{user.user && user.user.first_name} #{user.user && user.user.last_name}" %></td>
+                                    <td><%= "#{user.inserted_at |> Calendar.Strftime.strftime!("%d-%b-%Y %H:%M:%S")}" %></td>
+                                    <td><%= "#{user.updated_at |> Calendar.Strftime.strftime!("%d-%b-%Y %H:%M:%S")}" %></td>                                   
+                                    <td>
+                                        <button class="btn btn-primary btn-xs" data-toggle="dropdown" style="margin-top:0px !important; padding-top: 0px !important;">Options</button>
+                                        <div class="dropdown-menu dropdown-menu-animated dropdown-menu-right position-absolute pos-top">
+                                            <a href="<%= Routes.user_path(@conn, :edit, %{id: user.id}) %>" class="dropdown-item text-primary">Edit</a>
+                                            <%= if user.status == 3 do %>
+                                                <a href="#" data-user-id="<%= user.id %>" data-user-status="1" class="js-activate-user dropdown-item text-success">Activate</a>
+                                            <% else %>
+                                                <a href="#" data-user-id="<%= user.id %>" data-user-status="3" class="js-delete-user dropdown-item text-danger">Delete</a>
+                                            <% end %> 
+                                            <a href="#" data-user-id="<%= user.id %>" class="js-reset-pwd dropdown-item text-primary">Resert password</a>                                                                                       
+                                            <a href="<%= Routes.user_path(@conn, :user_activity, %{id: user.id}) %>" class="dropdown-item text-blue">Activities</a>                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>User Role</th>
+                                <th>user Type</th>
+                                <th>Status</th>
+                                <th>Created by</th>
+                                <th>Date Created</th>
+                                <th>Last Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

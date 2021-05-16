@@ -1,0 +1,218 @@
+<ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0);">System Reports</a></li>
+    <li class="breadcrumb-item">Transaction Archive</li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+    <h1 class="subheader-title">
+        <i class='subheader-icon fal fa-table'></i> View: <span class='fw-300'>Archive</span>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-md-12 col-lg-offset-2">
+        <div class="form-group">
+            <%= if get_flash(@conn, :info) do %>
+                <div class="alert alert-success alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                <%= get_flash(@conn, :info) %>
+                </div>
+            <% end %>
+            <%= if get_flash(@conn, :error) do %>
+                <div class="alert alert-danger alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                Opps! <%= get_flash(@conn, :error) %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+<div class="col-xl-12">
+    <div id="panel-1" class="panel">
+        <div class="panel-hdr">
+            <h2>
+                Archive Transaction Information
+
+            </h2>
+            <div class="panel-toolbar">
+                <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+            </div>
+        </div>
+
+        <style>
+            .batchbtn{
+                text-align: right;
+                padding-top: 10px;
+            }
+            .box{
+                text-align: center;
+                border-radius: 10px;
+            }
+        </style>
+
+        <div class="panel-container show">
+            <div class="panel-content">
+                <form class="form-inline" class="form-horizontal" action="" method="POST">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6 box">
+                                <br>
+                                <h4 style="text-align:left; font-weight: bold;">Request Information</h4><hr>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">External Id</label>
+                                    <input type="text" id="example-gridsize-2" class="form-control col-sm-6" name="external_id" value="<%= @txn_details.external_id%>" minlength="13" maxlength="13" placeholder="External Id" readonly="true">                                    
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Account No.</label>
+                                    <input type="text" id="example-gridsize-2" class="form-control col-sm-6" name="acc_num" value="<%= @txn_details.acc_num%>"  minlength="13" maxlength="13" placeholder="Account Number" readonly="true">                                    
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Transmission Time</label>
+                                    <input type="text" id="example-gridsize-2" class="form-control col-sm-6" name="transmission_dt_time" value="<%= @txn_details.transmission_dt_time%>" minlength="13" maxlength="13" placeholder="Transmission Time" readonly="true">                                    
+                                </div><br>
+
+                                <!-- <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Reference Number</label>
+                                    <input type="text" id="example-gridsize" class="form-control col-sm-6" name="ref_num" value="<%= @txn_details.ref_num%>" placeholder="Reference Number" readonly="true">
+                                </div><br> -->
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Sender Mobile No</label>
+                                    <input type="text" id="example-gridsize" class="form-control col-sm-6" name="mobile_num" value="<%= @txn_details.mobile_num%>" placeholder="Sender Mobile Number" readonly="true">
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Vendor Code</label>
+                                    <input type="text" id="example-gridsize" class="form-control col-sm-6" name="vendor_code" value="<%= @txn_details.vendor_code%>" placeholder="Vendor Code" readonly="true">
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Provider</label>
+                                    <input type="text" id="example-gridsize" class="form-control col-sm-6" name="provider" value="<%= @txn_details.provider%>" placeholder="Provider" readonly="true">
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Channel Code</label>
+                                    <input type="text" id="example-gridsize" class="form-control col-sm-6" name="channel_code" value="<%= @txn_details.channel_code%>" placeholder="Channel Code" readonly="true">
+                                </div><br>
+
+                                <!-- <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Narration</label>
+                                    <input type="text" id="example-gridsize" class="form-control col-sm-6" name="narrative" value="<%= @txn_details.narrative%>" placeholder="Narration" readonly="true">
+                                </div><br> -->
+                            </div>  
+
+                            <div class="col-6 box">
+                                    <br>  
+                                    <h4 style="text-align:left; font-weight: bold;">Response Information</h4><hr>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Voucher Number</label>
+                                    <input type="text" id="example-gridsize" class="form-control col-sm-6" name="voucher_num" value="<%= @txn_details.voucher_num%>" placeholder="Voucher Number" readonly="true">
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Transaction Amount</label>
+                                    <input type="text" id="example-gridsize" class="form-control col-sm-6" name="amount" value="<%= @txn_details.amount%>" placeholder="Transaction Amount" readonly="true">
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Currency</label>
+                                    <input type="text" id="example-gridsize-2" class="form-control col-sm-6" name="currency" value="<%= @txn_details.currency%>" minlength="13" maxlength="13" placeholder="Currency" readonly="true">                                         
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Status Code</label>
+                                    <input type="text" id="resp" class="form-control col-sm-6" name="status_code" value="<%= @txn_details.status_code%>" placeholder="Status Code" readonly="true">
+                                </div><br>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Status Description</label>
+                                    <input type="text" id="example-gridsize-2" class="form-control col-sm-6" name="status_descript" value="<%= @txn_details.status_descript%>" placeholder="Status Description" readonly="true">
+                                    <input type="hidden" id="req" class="form-control col-sm-6" name="req" value="<%= @txn_details.request%>">
+                                    <input type="hidden" id="cb_req" class="form-control col-sm-6" name="cb_req" value="<%= @txn_details.cb_request%>">
+                                    <input type="hidden" id="cb_res" class="form-control col-sm-6" name="cb_res" value="<%= @txn_details.cb_response%>">
+                                    <input type="hidden" id="res" class="form-control col-sm-6" name="p_resp" value="<%= @txn_details.response%>">
+                                </div><br>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <%= if @user.user_role == 1 && @user.user_type == 1 do %>
+                            <a type="submit" class="btn btn-primary" data-toggle="modal" data-target="#structures" href="#">Request/response structures</a> 
+                            <% end %>
+                            <a type="submit" class="btn btn-danger" href="<%= Routes.transfer_path(@conn, :archive)%>">Close</a>                                                  
+                        </div> 
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------------Authorization Modal -->
+
+<!------------------------------------------------------------------------------------------------------------>
+
+<div class="modal fade" id="structures" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+        </button>
+      </div>
+    <div class="modal-body">
+        <div class="row">
+          <!-------------First Grid --------->
+          <div class="col-md-6">
+            <div class="col">
+                <div class="row-md-6">
+                    <div class="form-group">
+                    <label class="form-label" for="example-textarea">MNO to Proxy</label>
+                    <textarea class="form-control" id="mno_req" rows="5" style="font-size:16px;" readonly="true"></textarea>
+                    </div>
+                </div>
+
+                <div class="row-md-6">
+                  <div class="form-group">
+                  <label class="form-label" for="example-textarea">CB to Proxy</label>
+                  <textarea class="form-control" id="cb_respo" rows="5" style="font-size:16px;" readonly="true"></textarea>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <!-------------Second Grid --------->
+          <div class="col-md-6">
+            <div class="col">
+                <div class="row-md-6">
+                  <div class="form-group">
+                  <label class="form-label" for="example-textarea">Proxy to CB</label>
+                  <textarea class="form-control" id="proxy_req" rows="5" style="font-size:16px;" readonly="true"></textarea>
+                  </div>
+                </div>
+
+                <div class="row-md-6">
+                  <div class="form-group">
+                  <label class="form-label" for="example-textarea">Proxy to MNOs</label>
+                  <textarea class="form-control" id="proxy_resp" rows="5" style="font-size:16px;" readonly="true"></textarea>
+                  </div>
+                </div>
+            </div>
+          </div>
+      </div>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  </div>
+</div>
+

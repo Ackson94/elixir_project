@@ -1,0 +1,61 @@
+<ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item"><a href="javascript:void(0);">System Users</a></li>
+    <li class="breadcrumb-item">User Logs</li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+    <h1 class="subheader-title">
+        <i class='subheader-icon fal fa-table'></i> Activity: <span class='fw-300'>Logs</span>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Activity <span class="fw-300"><i>Logs</i></span>
+                </h2>
+                <div class="panel-toolbar">
+                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                    <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                    <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <table id="dt-user-logs" class="table table-bordered table-hover table-striped w-100">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Activity</th>
+                                <th>Date Performed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%= for user_log <- @user_logs do %>
+                                <tr>
+                                    <td style="text-transform: capitalize"><%= user_log.user && user_log.user.first_name %></td>
+                                    <td style="text-transform: capitalize"><%= user_log.user && user_log.user.last_name %></td>
+                                    <td><%= user_log.user && user_log.user.email %></td>
+                                    <td><%= user_log.activity %></td>
+                                    <td><%= "#{user_log.inserted_at |> Calendar.Strftime.strftime!("%d-%b-%Y %H:%M:%S")}" %></td>                                    
+                                </tr>
+                            <% end %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Activity</th>
+                                <th>Date Performed</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

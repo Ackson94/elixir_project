@@ -1,0 +1,115 @@
+<ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item">MNOs</li>
+    <li class="breadcrumb-item active">View MNOs</li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+    <h1 class="subheader-title">
+        <i class='subheader-icon fal fa-wrench'></i> MNO: <span class='fw-300'>Records</span>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xl-12 text-center" id="loader" style="display: none;">
+        <button class="btn btn-info" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    </div>
+</div><br>
+<div class="row">
+    <div class="col-md-12 col-lg-offset-2">
+        <div class="form-group">
+            <%= if get_flash(@conn, :info) do %>
+                <div class="alert alert-success alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                <%= get_flash(@conn, :info) %>
+                </div>
+            <% end %>
+            <%= if get_flash(@conn, :error) do %>
+                <div class="alert alert-danger alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                Opps! <%= get_flash(@conn, :error) %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Update <span class="fw-300"><i>MNO</i></span>
+                </h2>
+                <div class="panel-toolbar">
+                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                    <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                    <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <form action="<%= Routes.mno_path(@conn, :update)%>" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="username">Username<span class="text-danger">*</span></label>
+                                    <input type="text" name="mno[username]" class="form-control" placeholder="Username" minlength="3" maxlength="25" value="<%= @mno.username %>" required>
+                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <input type="hidden" name="mno[id]" value="<%= @mno.id %>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="access_token">Access Token<span class="text-danger">*</span></label>
+                                    <input type="text" name="mno[access_token]" class="form-control" placeholder="Access Token" minlength="4" maxlength="50" value="<%= @mno.access_token %>" required>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="vendor_code">Vendor Code<span class="text-danger">*</span></label>
+                                    <input type="text" name="mno[vendor_code]" class="form-control" placeholder="Vendor Code" value="<%= @mno.vendor_code %>" minlength="2" maxlength="100" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="provider">Provider<span class="text-danger">*</span></label>
+                                    <input type="text" name="mno[provider]" class="form-control" placeholder="provider" value="<%= @mno.provider %>" minlength="2" maxlength="50" required>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="row">                           
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="password">Password<span class="text-danger">*</span></label>
+                                    <input type="password" name="mno[password]" id="password" class="form-control" placeholder="Password" value="<%= @mno.password %>" minlength="2" maxlength="50" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="channel_code">Channel Code<span class="text-danger">*</span></label>
+                                    <input type="text" name="mno[channel_code]" class="form-control" placeholder="Channel Code" value="<%= @mno.channel_code %>" minlength="2" maxlength="50" required>
+                                </div>
+                            </div>    
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="confirm">Re-type password<span class="text-danger">*</span></label>
+                                    <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="Re-type your password" value="<%= @mno.password %>" minlength="2" maxlength="50" required>
+                                    <span class="error" style="color:red"></span>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row">
+                            <button type="button" class="btn btn-danger submit ml-auto" onclick="history.back(-1)">Go Back</button>
+                            <button class="btn btn-primary ml-2 submit" type="submit">Submit form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

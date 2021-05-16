@@ -1,0 +1,100 @@
+<ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item">Settings</li>
+    <li class="breadcrumb-item active">SMS Notifications</li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+    <h1 class="subheader-title">
+        <i class='subheader-icon fal fa-wrench'></i> SMS: <span class='fw-300'>Notifications</span>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xl-12 text-center" id="loader" style="display: none;">
+        <button class="btn btn-info" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    </div>
+</div><br>
+<div class="row">
+    <div class="col-md-12 col-lg-offset-2">
+        <div class="form-group">
+            <%= if get_flash(@conn, :info) do %>
+                <div class="alert alert-success alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                <%= get_flash(@conn, :info) %>
+                </div>
+            <% end %>
+            <%= if get_flash(@conn, :error) do %>
+                <div class="alert alert-danger alert-styled-left">
+                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                Opps! <%= get_flash(@conn, :error) %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Configure <span class="fw-300"><i>SMS</i></span>
+                </h2>
+                <div class="panel-toolbar">
+                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                    <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                    <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <form action="<%= Routes.settings_path(@conn, :create_sms)%>" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="username">Username<span class="text-danger">*</span></label>
+                                    <input type="text" name="username" value="<%= @sms_configs && @sms_configs.username %>" class="form-control" placeholder="Username" minlength="2" maxlength="50" required>
+                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="password">Password<span class="text-danger">*</span></label>
+                                    <input type="text" name="password" value="<%= @sms_configs && @sms_configs.password %>" class="form-control" placeholder="Password" minlength="2" maxlength="50" required>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="sender_id">Sender Id<span class="text-danger">*</span></label>
+                                    <input type="text" name="sender_id" value="<%= @sms_configs && @sms_configs.sender_id %>" class="form-control" placeholder="Sender Id" minlength="2" maxlength="100" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="url">Url<span class="text-danger">*</span></label>
+                                    <input type="text" name="url" value="<%= @sms_configs && @sms_configs.url %>" class="form-control" placeholder="url" minlength="2" maxlength="50" required>
+                                </div>
+                            </div>
+                        </div><br>
+                        <!-- <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="password">Fund Transfer Url<span class="text-danger">*</span></label>
+                                    <input type="password" id="password" name="user[password]" class="form-control" style="text-transform: capitalize" placeholder="Password" minlength="2" maxlength="50" required>
+                                </div>
+                            </div>            
+                        </div><br>
+                         -->
+                        <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row">
+                            <button type="button" class="btn btn-danger submit ml-auto" onclick="history.back(-1)">Go Back</button>
+                            <button class="btn btn-primary ml-2 submit" type="submit">Submit form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
